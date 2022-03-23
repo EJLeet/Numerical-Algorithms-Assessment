@@ -38,6 +38,7 @@ double fn(double x)
 
 double power(double x, int y) 
 {// O(logn) power approach recursive
+ // logic is that x^3 = x * x^2
 
     double temp;  
     if(y == 0)
