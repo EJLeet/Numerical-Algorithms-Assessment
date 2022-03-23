@@ -37,7 +37,7 @@ double fn(double x)
 }
 
 double power(double x, int y) 
-{// O(logn) power approach by calculating y/2 once and storing it
+{// O(logn) power approach recursive
 
     double temp;  
     if(y == 0)
