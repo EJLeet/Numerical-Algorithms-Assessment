@@ -16,10 +16,11 @@ int main()
 
     for (int i = 1; i < 100; i++)
     { // test 100 decreasing h values
-        cout << "Central Difference at h(" << h / i << ") = " << 
-                std::setprecision(8) << central_dif(x, h / i) << endl;
-        cout << "Richardson Extrapolation at h(" << h / i << ") = " << 
-                std::setprecision(8) << rich_extrap(x, h / i) << endl;
+        // cout << "Central Difference at h(" << h / i << ") = " << 
+        //         std::setprecision(8) << central_dif(x, h / i) << endl;
+        cout << "Richardson Extrapolation at h(" << h + i << ") = " << 
+                std::setprecision(8) << rich_extrap(x, h + i) << endl;
+        cout << "Actual Result = -2.275" << endl;
     }
     return 0;
 }
