@@ -14,7 +14,7 @@ int main()
 {
     double x = 0.5, h = 0.25;
 
-    for (int i = 1; i < 100; i++)
+    for (int i = 1; i < 1000; i++)
     { // test 100 decreasing h values
         cout << "Central Difference at h(" << h / i << ") = " << 
                 std::setprecision(8) << central_dif(x, h / i) << endl;
