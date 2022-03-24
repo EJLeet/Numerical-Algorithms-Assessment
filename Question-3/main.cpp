@@ -1,6 +1,11 @@
+/*
+Python3 and matplotlib are required for this file.
+*/
+
 #include <iostream>
 #include <iomanip>
 #include <vector>
+#include <fstream>
 
 using std::cout;
 using std::endl;
@@ -12,16 +17,26 @@ double rich_extrap(double x, double h);
 
 int main()
 {
+    std::ofstream outfile;
+    outfile.open("output.txt");
+
     double x = 0.5, h = 0.25;
 
-    for (int i = 1; i < 1000; i++)
-        cout << "Central Difference at h(" << h / i << ") = " << 
-                std::setprecision(8) << central_dif(x, h / i) << endl;
+    for (int i = 1; i <= 100; i++)
+    { // experiment with different h values for central difference formula
+        double temp = central_dif(x, h / i);
+        cout << "Central Difference at h(" << h / i << ") = "
+             << std::setprecision(8) << temp << endl;
+        outfile << temp << endl;
+    }
+    outfile.close();
 
-    cout << "Richardson Extrapolation at = " << std::setprecision(8) << 
-            rich_extrap(x, h) << endl;
-            
-    cout << "Actual Result = -2.275" << endl;
+    cout << "Richardson Extrapolation at = " << std::setprecision(8)
+         << rich_extrap(x, h) << endl
+         << "Actual Result = -2.275" << endl;
+
+    system("python3 plot.py");
+
     return 0;
 }
 
@@ -73,11 +88,9 @@ double rich_extrap(double x, double h)
         matrix.push_back(std::vector<double>(col)); // allocate memory for the correct amount of columns
         matrix[0][row] = central_dif(x, h);         // add first column value
 
-        for (int i = 1; i <= col; i++)
-        { // compute rest of row
+        for (int i = 1; i <= col; i++) // compute rest of row
             matrix[i][row] = power(4, i) / (power(4, i) - 1) * matrix[i - 1][row] -
                              1 / (power(4, i) - 1) * matrix[i - 1][row - 1];
-        }
 
         // check if low enough error margin
         curr_approx = matrix[col][row];
