@@ -4,11 +4,14 @@ using std::cout;
 using std::endl;
 
 double multi_app_simpson(double a, double b, int seg);
-double fn(double x);
-double power(double x, int y);
+double fn_t10(double x);
+double fn_t20(double x);
+double fn_t30(double x);
 
 int main()
-{
+{// loop from t = 0 to 30 = seg
+ // check in function what range seg (t) is in
+ // apply appropriate function
 
     return 0;
 }
@@ -34,22 +37,19 @@ double multi_app_simpson(double a, double b, int seg)
     return (step / 3) * (fn(a) + 4 * odd_sum + 2 * even_sum + fn(b));
 }
 
-double fn(double x)
-{ // calculates above function for some x
+double fn_t10(double x)
+{ // calculates given function for interval 0 <= t <=  10
     return 0.2 + 25 * x - 200 * power(x, 2) + 675 * power(x, 3) -
            900 * power(x, 4) + 400 * power(x, 5);
 }
 
-double power(double x, int y)
-{ // O(logn) power approach recursive. logic is that x^3 = x * x^2
-    if (y == 0)
-        return 1;
-
-    double temp = power(x, y / 2);
-
-    if (y % 2 == 0)
-        return temp * temp;
-
-    else
-        return y > 0 ? x * temp * temp : (temp * temp) / x;
+double fn_t10(double x)
+{ // calculates given function for interval 10 <= t <=  20
+    return 0.2 + 25 * x - 200 * power(x, 2) + 675 * power(x, 3) -
+           900 * power(x, 4) + 400 * power(x, 5);
+}
+double fn_t10(double x)
+{ // calculates given function for interval 20 <= t <=  30
+    return 0.2 + 25 * x - 200 * power(x, 2) + 675 * power(x, 3) -
+           900 * power(x, 4) + 400 * power(x, 5);
 }

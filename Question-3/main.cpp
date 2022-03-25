@@ -43,8 +43,8 @@ double central_dif(double x, double h)
 
 double fn(double x)
 { // calculates given function x
-    return -0.2 * power(x, 4) - 0.3 * power(x, 3) -
-           1.5 * power(x, 2) - 0.45 * x + 2.6;
+    return -0.2 * x * x * x * x - 0.3 * x * x * x -
+           1.5 * x * x - 0.45 * x + 2.6;
 }
 
 double power(double x, int y)

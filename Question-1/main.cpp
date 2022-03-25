@@ -7,7 +7,6 @@ using std::endl;
 
 double central_dif(double x, double h);
 double fn(double x);
-double power(double x, int y);
 
 int main()
 {
@@ -36,21 +35,7 @@ double central_dif(double x, double h)
 }
 
 double fn(double x)
-{ // calculates given function x
-    return -0.1 * power(x, 4) - 0.15 * power(x, 3) -
-           0.5 * power(x, 2) - 0.15 * x + 1.2;
-}
-
-double power(double x, int y)
-{ // O(logn) power approach recursive. logic is that x^3 = x * x^2
-    if (y == 0)
-        return 1;
-
-    double temp = power(x, y / 2);
-
-    if (y % 2 == 0)
-        return temp * temp;
-
-    else
-        return y > 0 ? x * temp * temp : (temp * temp) / x;
+{
+    return -0.1 * x * x * x * x - 0.15 * x * x * x -
+           0.5 * x * x - 0.15 * x + 1.2;
 }
