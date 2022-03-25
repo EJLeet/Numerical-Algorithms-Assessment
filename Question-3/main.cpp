@@ -75,7 +75,7 @@ double rich_extrap(double x, double h)
         // check if low enough error margin
         curr_approx = matrix[row][col];
         prev_approx = matrix[row][col - 1];
-        rel_err = abs(curr_approx - prev_approx);
+        rel_err = abs((curr_approx - prev_approx) / curr_approx);
     }
     return matrix[row][col];
 }
