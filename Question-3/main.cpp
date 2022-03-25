@@ -59,10 +59,13 @@ double rich_extrap(double x, double h)
     double err_tol = 0.5 * (1 / (10.0 * 10.0 * 10.0 * 10.0 * 10.0 * 10.0 * 10.0 * 10.0)), curr_approx = 1,
            prev_approx = 0, rel_err = abs((curr_approx - prev_approx) / curr_approx);
 
-    int col = 1, row = 1;
-    h /= 2;
+    int col = 0, row = 0;
     while (rel_err > err_tol)
-    {                                               // loop until tolerance is met
+    { // loop until tolerance is met
+        // move to next cell and decrease h
+        row++;
+        col++;
+        h /= 2;
         matrix.push_back(std::vector<double>(row)); // allocate memory for the correct amount of columns
         matrix[row][0] = (central_dif(x, h));       // add first column value
 
@@ -78,11 +81,6 @@ double rich_extrap(double x, double h)
         curr_approx = matrix[row][col];
         prev_approx = matrix[row - 1][col - 1];
         rel_err = abs((curr_approx - prev_approx) / curr_approx);
-
-        // move to next cell and decrease h
-        row++;
-        col++;
-        h /= 2;
     }
-    return matrix[row - 1][col - 1];
+        return matrix[row][col];
 }
