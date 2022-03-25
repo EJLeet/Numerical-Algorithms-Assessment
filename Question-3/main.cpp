@@ -29,7 +29,7 @@ int main()
 
     cout << "Richardson Extrapolation at = " << std::setprecision(8)
          << rich_extrap(x, h) << endl
-         << "Actual Result = -2.275" << endl;
+         << "Actual Derivative = -2.275" << endl;
 
     return 0;
 }
