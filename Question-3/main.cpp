@@ -1,7 +1,3 @@
-/*
-Python3 and matplotlib are required for this file.
-*/
-
 #include <iostream>
 #include <iomanip>
 #include <vector>
@@ -18,7 +14,7 @@ double rich_extrap(double x, double h);
 int main()
 {
     std::ofstream outfile;
-    outfile.open("output.txt");
+    outfile.open("output.txt"); // used for creating graph
 
     double x = 0.5, h = 0.25;
 
@@ -34,8 +30,6 @@ int main()
     cout << "Richardson Extrapolation at = " << std::setprecision(8)
          << rich_extrap(x, h) << endl
          << "Actual Result = -2.275" << endl;
-
-    system("python3 plot.py");
 
     return 0;
 }
