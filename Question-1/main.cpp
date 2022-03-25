@@ -36,7 +36,7 @@ double central_dif(double x, double h)
 }
 
 double fn(double x)
-{ // calculates above function for some x
+{ // calculates given function x
     return -0.1 * power(x, 4) - 0.15 * power(x, 3) -
            0.5 * power(x, 2) - 0.15 * x + 1.2;
 }
