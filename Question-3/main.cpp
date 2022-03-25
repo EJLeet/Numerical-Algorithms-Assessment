@@ -55,27 +55,34 @@ double rich_extrap(double x, double h)
     matrix.push_back(std::vector<double>(1));
     matrix[0][0] = central_dif(x, h);
 
-    // error tolerance to 8 significant figs (10^2-8)
-    double err_tol = 0.5 * (1 / (10 * 10 * 10 * 10)), curr_approx = 1,
-           prev_approx = 0, rel_err = abs(curr_approx - prev_approx);
+    // error tolerance to 10 significant figs (10^2-8)
+    double err_tol = 0.5 * (1 / (10.0 * 10.0 * 10.0 * 10.0 * 10.0 * 10.0 * 10.0 * 10.0)), curr_approx = 1,
+           prev_approx = 0, rel_err = abs((curr_approx - prev_approx) / curr_approx);
 
-    int col = 0, row = 0;
+    int col = 1, row = 1;
+    h /= 2;
     while (rel_err > err_tol)
-    { // loop until tolerance is met
-        row++;
-        col++;
-        h /= 2;                                     // decrease h every time
+    {                                               // loop until tolerance is met
         matrix.push_back(std::vector<double>(row)); // allocate memory for the correct amount of columns
-        matrix[row][0] = central_dif(x, h);         // add first column value
+        matrix[row][0] = (central_dif(x, h));       // add first column value
 
-        for (int i = 1; i <= col; i++) // compute rest of row
-            matrix[row][i] = pow(4, i) / (pow(4, i) - 1) * matrix[row][i - 1] -
-                             1 / (pow(4, i) - 1) * matrix[row - 1][i - 1];
-    
+        int x_next = 4;
+        for (int i = 1; i <= col; i++)
+        { // compute rest of row
+            matrix[row][i] = (x_next / (x_next - 1)) * matrix[row][i - 1] -
+                             (1 / (x_next - 1)) * matrix[row - 1][i - 1];
+            x_next *= 4;
+        }
+
         // check if low enough error margin
         curr_approx = matrix[row][col];
-        prev_approx = matrix[row][col - 1];
+        prev_approx = matrix[row - 1][col - 1];
         rel_err = abs((curr_approx - prev_approx) / curr_approx);
+
+        // move to next cell and decrease h
+        row++;
+        col++;
+        h /= 2;
     }
-    return matrix[row][col];
+    return matrix[row - 1][col - 1];
 }
