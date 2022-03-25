@@ -8,7 +8,6 @@ using std::endl;
 
 double central_dif(double x, double h);
 double fn(double x);
-double power(double x, int y);
 double rich_extrap(double x, double h);
 
 int main()
