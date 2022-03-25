@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <vector>
 #include <fstream>
+#include <cmath>
 
 using std::cout;
 using std::endl;
@@ -46,20 +47,6 @@ double fn(double x)
            1.5 * x * x - 0.45 * x + 2.6;
 }
 
-double power(double x, int y)
-{ // O(logn) power approach recursive. logic is that x^3 = x * x^2
-    if (y == 0)
-        return 1;
-
-    double temp = power(x, y / 2);
-
-    if (y % 2 == 0)
-        return temp * temp;
-
-    else
-        return y > 0 ? x * temp * temp : (temp * temp) / x;
-}
-
 double rich_extrap(double x, double h)
 { // richard extrapolation
 
@@ -68,8 +55,8 @@ double rich_extrap(double x, double h)
     matrix.push_back(std::vector<double>(1));
     matrix[0][0] = central_dif(x, h);
 
-    // error tolerance to 8 significant figs
-    double err_tol = 0.5 * (power(10, 2 - 8)), curr_approx = 1,
+    // error tolerance to 8 significant figs (10^2-8)
+    double err_tol = 0.5 * (1 / (10 * 10 * 10 * 10)), curr_approx = 1,
            prev_approx = 0, rel_err = abs(curr_approx - prev_approx);
 
     int col = 0, row = 0;
@@ -78,17 +65,17 @@ double rich_extrap(double x, double h)
         row++;
         col++;
         h /= 2;                                     // decrease h every time
-        matrix.push_back(std::vector<double>(col)); // allocate memory for the correct amount of columns
-        matrix[0][row] = central_dif(x, h);         // add first column value
+        matrix.push_back(std::vector<double>(row)); // allocate memory for the correct amount of columns
+        matrix[row][0] = central_dif(x, h);         // add first column value
 
         for (int i = 1; i <= col; i++) // compute rest of row
-            matrix[i][row] = power(4, i) / (power(4, i) - 1) * matrix[i - 1][row] -
-                             1 / (power(4, i) - 1) * matrix[i - 1][row - 1];
-
+            matrix[row][i] = pow(4, i) / (pow(4, i) - 1) * matrix[row][i - 1] -
+                             1 / (pow(4, i) - 1) * matrix[row - 1][i - 1];
+    
         // check if low enough error margin
-        curr_approx = matrix[col][row];
-        prev_approx = matrix[col - 1][row];
+        curr_approx = matrix[row][col];
+        prev_approx = matrix[row][col - 1];
         rel_err = abs(curr_approx - prev_approx);
     }
-    return matrix[col][row];
+    return matrix[row][col];
 }
