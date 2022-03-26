@@ -83,7 +83,7 @@ double rich_extrap(double x, double h)
     matrix.push_back(std::vector<double>(1));
     matrix[0][0] = central_dif(x, h);
 
-    // error tolerance to 10 significant figs (10^2-8)
+    // error tolerance to 10 significant figs (10^2-10)
     double err_tol = 0.5 * (1 / (10.0 * 10.0 * 10.0 * 10.0 * 10.0 * 10.0 * 10.0 * 10.0)), 
                      curr_approx = 1, prev_approx = 0, 
                      rel_err = abs((curr_approx - prev_approx) / curr_approx);
