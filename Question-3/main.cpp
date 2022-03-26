@@ -64,7 +64,7 @@ double rich_extrap(double x, double h)
         matrix.push_back(std::vector<double>(row)); // allocate memory for the correct amount of columns
         matrix[row][0] = (central_dif(x, h));       // add first column value
 
-        int x_next = 4;
+        double x_next = 4.0;
         for (int i = 1; i <= col; i++)
         { // compute rest of row
             matrix[row][i] = (x_next / (x_next - 1)) * matrix[row][i - 1] -
