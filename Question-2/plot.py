@@ -15,15 +15,19 @@ def draw_plot(vals):
 
     data = [int(line) for line in vals]
 
+    plt.figure(0)
     plt.plot(data[:30]) # dv/dt
-    plt.plot(data[30:]) # dv"/dt
-
     plt.yticks([-5, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220], 
-               [-5, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220])
+            [-5, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220])
 
     plt.legend(['dv/dt', 'dv"/dt'], loc ="upper right")
     plt.tight_layout()
-    plt.savefig('acceleration.jpg')
+    plt.savefig('dv.jpg')
+
+    plt.figure(1)
+    plt.plot(data[30:]) # dv"/dt
+
+
 
 if __name__ == "__main__":
     read_file("output.txt")
