@@ -7,8 +7,9 @@
 using std::cout;
 using std::endl;
 
-double central_dif(double x, double h);
 double fn(double x);
+double central_dif(double x, double h)// central difference formula
+{ return (fn(x + h) - fn(x - h)) / (2 * h); }
 double rich_extrap(double x, double h);
 
 int main()
@@ -32,13 +33,6 @@ int main()
          << "Actual Derivative = -2.275" << endl;
 
     return 0;
-}
-
-double central_dif(double x, double h)
-{ // central difference formula
-    double fxh_plus = x + h;
-    double fxh_minus = x - h;
-    return (fn(fxh_plus) - fn(fxh_minus)) / (2 * h);
 }
 
 double fn(double x)
