@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <vector>
 #include <fstream>
+#include <math.h>
 
 using std::cout;
 using std::endl;
@@ -58,7 +59,7 @@ double rich_extrap(double x, double h)
     // error tolerance to 10 significant figs (10^2-8)
     double err_tol = 0.5 * (1 / (10.0 * 10.0 * 10.0 * 10.0 * 10.0 * 10.0 * 10.0 * 10.0)),
            curr_approx = 1, prev_approx = 0,
-           rel_err = abs((curr_approx - prev_approx) / curr_approx);
+           rel_err = fabs((curr_approx - prev_approx) / curr_approx);
 
     int col = 0, row = 0;
     while (rel_err > err_tol)
@@ -81,7 +82,7 @@ double rich_extrap(double x, double h)
         // check if low enough error margin
         curr_approx = matrix[row][col];
         prev_approx = matrix[row - 1][col - 1];
-        rel_err = abs((curr_approx - prev_approx) / curr_approx);
+        rel_err = fabs((curr_approx - prev_approx) / curr_approx);
     }
     return matrix[row][col];
 }
