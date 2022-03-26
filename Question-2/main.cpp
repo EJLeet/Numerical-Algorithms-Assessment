@@ -37,6 +37,8 @@ int main()
     outfile.open("output.txt"); // used for creating graph
     for (int i = 1; i <= 30; i++) // work out dv/dt
         outfile << rich_extrap(i, 0.25, i) << endl;
+    
+    //work out dv^2/dt
 
     return 0;
 }
