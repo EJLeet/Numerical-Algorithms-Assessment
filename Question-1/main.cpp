@@ -26,8 +26,8 @@ T optimal_h(T h, T upper, T inc);
 
 int main()
 {
-    cout << optimal_h<double>(0.001, 5, 0.001) << endl;
-    cout << optimal_h<float>(0.001, 5, 0.001) << endl;
+    cout << optimal_h<double>(0.001, 3, 0.001) << endl;
+    cout << optimal_h<float>(0.001, 3, 0.001) << endl;
     half_float::half h(0.001), upper(3), inc(0.001);
     cout << optimal_h<half_float::half>(h, upper, inc) << endl;
     return 0;
