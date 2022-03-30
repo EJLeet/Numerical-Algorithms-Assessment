@@ -9,11 +9,11 @@ using std::endl;
 
 template <typename T>
 T fx(T x) // given function
-{ return -0.1 * x * x * x * x - 0.15 * x * x * x - 0.5 * x * x - 0.15 * x + 1.2; }
+{ return T(-0.1) * x * x * x * x - T(0.15) * x * x * x - T(0.5) * x * x - T(0.15) * x + T(1.2); }
 
 template <typename T>
 T fx_(T x) // given function derivative
-{ return -0.4 * x * x * x - 0.45 * x * x - x - 0.15; }
+{ return T(-0.4) * x * x * x - T(0.45) * x * x - x - T(0.15); }
 
 template <typename T>
 T central_dif(T x, T h)// central difference formula
@@ -22,13 +22,14 @@ T central_dif(T x, T h)// central difference formula
 template <typename T>
 T optimal_h();
 
-half_float::half optimal_h_hf();
+
 
 int main()
 {
     // experiment with different h values for central difference formula and find optimal h
     cout << optimal_h<double>() << endl;
     cout << optimal_h<float>() << endl;
+    //cout << optimal_h<half_float::half>() << endl;
     //cout << optimal_h_hf() << endl;
 
     return 0;
