@@ -14,19 +14,19 @@ def draw_plot(vals):
     # comment out other 2 depending on what graph you want to make
 
     # # plot double
-    # plt.plot(data[:10000]) 
+    # plt.plot(data) 
     # plt.xticks([0, 2000, 4000, 6000, 8000, 10000], 
     #         [-3, -2, -1, 0, 1, 2])
     # plt.savefig('double.jpg')
 
     # # plot float
-    # plt.plot(data[10000:19999]) 
+    # plt.plot(data) 
     # plt.xticks([0, 2000, 4000, 6000, 8000, 10000], 
     #         [-3, -2, -1, 0, 1, 2])
     # plt.savefig('float.jpg')
 
-    # # plot float
-    # plt.plot(data[20000:]) 
+    # # plot half float
+    # plt.plot(data) 
     # plt.xticks([0, 500, 1000, 1500, 2000, 2500, 3000], 
     #         [-3, -2.5, -2, -1.5, -1, -0.5, 0])
     # plt.savefig('half_float.jpg')
