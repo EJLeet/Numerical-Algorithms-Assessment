@@ -8,8 +8,8 @@ using std::cout;
 
 double romberg(double t1, double t2, double tolerance);
 double ft(double t)
-{ return (9 + 4 * (cos(0.4 * t) * cos(0.4 * t))) * 
-         (5 * exp(-0.5 * t)) + 2 * exp(0.15 * t); }
+{ return 45 * exp(-0.5 * t) + 20 * exp(-0.5 * t) * (cos(0.4 * t) * cos(0.4 * t)) + 
+         18 * exp(0.15 * t) + 8 * exp(0.15 * t) * (cos(0.4 * t) * cos(0.4 * t)); }
 double multi_trap(double a, double b, double seg);
 
 int main()
