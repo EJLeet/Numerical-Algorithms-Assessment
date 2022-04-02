@@ -19,7 +19,6 @@ int main()
     double t1 = 2., t2 = 8., tolerance = 0.001;
     cout << "Romberg Inegration = " << std::setprecision(8) 
          << romberg(t1, t2, tolerance) << endl;
-    cout << "Analytical = 322.348" << endl;
     return 0;
 }
 
