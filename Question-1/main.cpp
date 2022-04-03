@@ -27,6 +27,10 @@ TYPE
 T third_derivative(T x) // third derivative of fx
 { return T(-2.4) * x - T(0.9); }
 
+TYPE
+T quadratic(T a, T b, T c) // quadratic formula for returning derivative using line equation
+{ return (-b + sqrt(b * b - T(4) * a * c)) / (T(2) * a); }
+
 int main()
 {
     // Find optimal H value numerically
@@ -49,29 +53,21 @@ int main()
         value of __FLT16_EPSILON__ in clang.
                                                                 */
                                                             
-    /*
-        Line equations derived from python trendline fitting
-        Double: y=0.357730803912x+(-0.000000929785)
-        Float: y=0.502896x+(-0.095061)
-        Half: y=0.352463x+(-0.000297)
-
-        Solve for x and that is theoretical h opt
-                                                                */
-    double d_actualh = double(-0.000000929785) / double(0.357730803912);
-    float f_actualh = float(-0.095061) / float(0.502896);
-    half_float::half h_actualh(half_float::half(-0.000297) / half_float::half(0.352463));
+    double d_actualh = quadratic(double(0.357730803912), double(-0.000000929785), double(0.000000000023));
+    float f_actualh = quadratic(float(0.352463), float(-0.000297), float(0.000007));
+    half_float::half h_actualh(quadratic(half_float::half(0.502896), half_float::half(-0.095061), half_float::half(0.012796)));
 
     cout << "Double Precision Predicted H = \t" << dbl_h_pred << endl << 
             "Single Precision Predicted H = \t" << flt_h_pred << endl << 
             "Half Precision Predicted H = \t" << hlf_h_pred << endl << endl;
 
-    cout << "Double Precision Optimal H Using Machine Epsilon = \t" << dbl_h_opt << endl << 
-            "Single Precision Optimal H Using Machine Epsilon = \t" << flt_h_opt << endl << 
-            "Half Precision Optimal H Using Machine Epsilon = \t" << hlf_h_opt << endl << endl;
-
-    cout << "Double Precision Optimal H Using Line Equation = \t" << abs(d_actualh) << endl <<
-            "Single Precision Optimal H Using Line Equation = \t" << abs(f_actualh) << endl <<
-            "Half Precision Optimal H Using Line Equation =   \t" << abs(h_actualh) << endl;                                   
+    cout << "Double Precision Theoretical Optimal H Using Machine Epsilon = \t" << dbl_h_opt << endl << 
+            "Single Precision Theoretical Optimal H Using Machine Epsilon = \t" << flt_h_opt << endl << 
+            "Half Precision Theoretical Optimal H Using Machine Epsilon = \t" << hlf_h_opt << endl << endl; 
+                                   
+    cout << "Double Precision Central Difference Derivative Using Theoretical H = \t" << central_dif(double(0.5), dbl_h_opt) << endl 
+         << "Single Precision Central Difference Derivative Using Theoretical H = \t" << central_dif(float(0.5), flt_h_opt) << endl
+         << "Half Precision Central Difference Derivative Using Theoretical H = \t" << central_dif(half_float::half(0.5), hlf_h_opt) << endl << endl;;
     
 
     return 0;
@@ -88,7 +84,7 @@ T predict_h(T h, T upper, T inc, std::string filename)
     {// loop different h values
         T predicted = central_dif(T(0.5), T(i));
         T true_error = fabs((actual - predicted));
-        outfile << log(i) << " " << log(true_error) << endl;
+        outfile << log10(i) << " " << log10(true_error) << endl;
 
         if (true_error < error) 
         {// update current best h
