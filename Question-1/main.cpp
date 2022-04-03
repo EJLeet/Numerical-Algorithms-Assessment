@@ -2,7 +2,7 @@
 #include <iomanip>
 #include <fstream>
 #include <cmath>
-#include "half.h" // https://github.com/suruoxi/half
+#include "half.hpp" // https://github.com/suruoxi/half
 
 using std::cout;
 using std::endl;
@@ -21,18 +21,47 @@ T central_dif(T x, T h)// central difference formula
 { return (fx(x + h) - fx(x - h)) / (T(2) * h); }
 
 TYPE
-T optimal_h(T h, T upper, T inc, std::string filename);
+T predict_h(T h, T upper, T inc, std::string filename);
+
+TYPE
+T third_derivative(T x) // third derivative of fx
+{ return T(-2.4) * x - T(0.9); }
 
 int main()
 {
-    cout << optimal_h(double(0.0000000001), double(0.5), double(0.0001), "double.txt") << endl;
-    cout << optimal_h(float(0.00001), float(0.5), float(0.002), "float.txt") << endl;
-    cout << optimal_h(half_float::half(0.001), half_float::half(0.5), half_float::half(0.002), "half.txt") << endl;
+    // Find optimal H value numerically
+    double dbl_h_pred = predict_h(double(0.0000000001), double(0.0001), 
+                           double(0.0000000001), "double.txt");
+    float flt_h_pred = predict_h(float(0.00001), float(0.1), float(0.00001), "float.txt");
+    half_float::half hlf_h_pred(predict_h(half_float::half(0.001), half_float::half(0.5), 
+                                   half_float::half(0.001), "half.txt"));
+
+    // Find theoretical H based on machine epsilon
+    double dbl_h_opt = cbrt((double(3) * __DBL_EPSILON__) / abs(third_derivative(double(0.5))));
+    float flt_h_opt = cbrt((float(3) * __FLT_EPSILON__) / abs(third_derivative(float(0.5))));
+    half_float::half hlf_h_opt = cbrt((half_float::half(3) * half_float::half(__FLT16_EPSILON__) 
+                                       / abs(third_derivative(half_float::half(0.5)))));
+    /*
+    Note to marker: __FLT16_EPSILON__ works with clang++.
+    If using gcc a define as follows will be needed:
+    #define __FLT16_EPSILON__ half_float::half(0.000976562)
+    Note that this value is explicit from printing the 
+    value of __FLT16_EPSILON__ in clang.
+                                                           */
+
+    cout << "Double Precision Predicted H = \t" << dbl_h_pred << endl << 
+            "Single Precision Predicted H = \t" << flt_h_pred << endl << 
+            "Half Precision Predicted H = \t" << hlf_h_pred << endl;
+
+    cout << "Double Precision Optimal H = \t" << dbl_h_opt << endl << 
+            "Single Precision Optimal H = \t" << flt_h_opt << endl << 
+            "Half Precision Optimal H = \t" << hlf_h_opt << endl;
+
     return 0;
 }
 
 TYPE
-T optimal_h(T h, T upper, T inc, std::string filename)
+T predict_h(T h, T upper, T inc, std::string filename)
 {// compare double vs float
     std::ofstream outfile;
     outfile.open(filename); // used for creating graph of derivative
