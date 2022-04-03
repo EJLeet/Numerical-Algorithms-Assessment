@@ -27,10 +27,6 @@ TYPE
 T third_derivative(T x) // third derivative of fx
 { return T(-2.4) * x - T(0.9); }
 
-TYPE
-T quadratic(T a, T b, T c) // quadratic formula for returning derivative using line equation
-{ return (-b + sqrt(b * b - T(4) * a * c)) / (T(2) * a); }
-
 int main()
 {
     // Find optimal H value numerically
@@ -38,7 +34,7 @@ int main()
                                   double(0.0000000001), "double.txt");
     float flt_h_pred = predict_h(float(0.00001),float(0.1), float(0.00001), "float.txt");
     half_float::half hlf_h_pred(predict_h(half_float::half(0.001), half_float::half(0.5), 
-                                   half_float::half(0.001), "half.txt"));
+                                          half_float::half(0.001), "half.txt"));
 
     // Find theoretical H based on machine epsilon
     double dbl_h_opt = cbrt((double(3) * __DBL_EPSILON__) / abs(third_derivative(double(0.5))));
@@ -52,23 +48,37 @@ int main()
         Note that this value is explicit from printing the 
         value of __FLT16_EPSILON__ in clang.
                                                                 */
-                                                            
-    double d_actualh = quadratic(double(0.357730803912), double(-0.000000929785), double(0.000000000023));
-    float f_actualh = quadratic(float(0.352463), float(-0.000297), float(0.000007));
-    half_float::half h_actualh(quadratic(half_float::half(0.502896), half_float::half(-0.095061), half_float::half(0.012796)));
 
+    /*
+        Line equations and optimal h (x value from solving quadratic) 
+        derived from python trendline fitting
+        Half = y=0.502896x^2 + -0.095061x + 0.012796 = h opt = 0.09451
+        Float = y=0.352463x^2 + -0.000297x + 0.000007 = h opt = 0.00042
+        Double = y=0.357730803912x^2 + -0.000000929785x + 0.000000000023 = h opt = 0.00000128751
+                                                                                                    */
+                                                                                            
     cout << "Double Precision Predicted H = \t" << dbl_h_pred << endl << 
             "Single Precision Predicted H = \t" << flt_h_pred << endl << 
             "Half Precision Predicted H = \t" << hlf_h_pred << endl << endl;
 
-    cout << "Double Precision Theoretical Optimal H Using Machine Epsilon = \t" << dbl_h_opt << endl << 
-            "Single Precision Theoretical Optimal H Using Machine Epsilon = \t" << flt_h_opt << endl << 
-            "Half Precision Theoretical Optimal H Using Machine Epsilon = \t" << hlf_h_opt << endl << endl; 
+    cout << "Double Precision Theoretical Optimal H Using Machine Epsilon = \t" << dbl_h_opt 
+         << endl << "Single Precision Theoretical Optimal H Using Machine Epsilon = \t" 
+         << flt_h_opt << endl << "Half Precision Theoretical Optimal H Using Machine Epsilon = \t" 
+         << hlf_h_opt << endl << endl; 
                                    
-    cout << "Double Precision Central Difference Derivative Using Theoretical H = \t" << central_dif(double(0.5), dbl_h_opt) << endl 
-         << "Single Precision Central Difference Derivative Using Theoretical H = \t" << central_dif(float(0.5), flt_h_opt) << endl
-         << "Half Precision Central Difference Derivative Using Theoretical H = \t" << central_dif(half_float::half(0.5), hlf_h_opt) << endl << endl;;
+    cout << "Double Precision Central Difference Derivative Using Theoretical H = \t" 
+         << central_dif(double(0.5), dbl_h_opt) << endl 
+         << "Single Precision Central Difference Derivative Using Theoretical H = \t" 
+         << central_dif(float(0.5), flt_h_opt) << endl
+         << "Half Precision Central Difference Derivative Using Theoretical H = \t" 
+         << central_dif(half_float::half(0.5), hlf_h_opt) << endl << endl;
     
+    cout << "Double Precision Central Difference Derivative Using Line Equation H = \t" 
+         << central_dif(double(0.5), double(0.00000128751)) << endl 
+         << "Single Precision Central Difference Derivative Using Line Equation H = \t" 
+         << central_dif(float(0.5), float(0.00042)) << endl
+         << "Half Precision Central Difference Derivative Using Line Equation H = \t" 
+         << central_dif(half_float::half(0.5), half_float::half(0.09451)) << endl;
 
     return 0;
 }
