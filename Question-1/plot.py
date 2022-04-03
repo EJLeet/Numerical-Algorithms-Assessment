@@ -14,7 +14,7 @@ plt.scatter(x, y)
 z = np.polyfit(x, y, 2)
 p = np.poly1d(z)
 plt.plot(x,p(x),"r--")
-# the line equation:
+# the line equation: remove -inf from data if need be
 print ("y=%.6fx+(%.6f)"%(z[0],z[1]))
 plt.savefig("half.jpg")
 plt.close()
@@ -31,7 +31,7 @@ plt.scatter(x, y)
 z = np.polyfit(x, y, 2)
 p = np.poly1d(z)
 plt.plot(x,p(x),"r--")
-# the line equation:
+# the line equation: remove -inf from data if need be - will need to 
 print ("y=%.6fx+(%.6f)"%(z[0],z[1]))
 plt.savefig("float.jpg")
 plt.close()   
@@ -49,7 +49,7 @@ z = np.polyfit(x, y, 2)
 p = np.poly1d(z)
 plt.plot(x,p(x),"r--")
 # the line equation:
-print ("y=%.6fx+(%.6f)"%(z[0],z[1]))
+print ("y=%.12fx+(%.12f)"%(z[0],z[1]))
 
 plt.savefig("double.jpg")
 plt.close()
