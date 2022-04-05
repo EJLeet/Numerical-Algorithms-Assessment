@@ -35,12 +35,12 @@ int main()
     cout << "Analytical Distance = " << std::setprecision(10)
          << double(80500) / double(3) << endl;
 
-    outfile.open("output.txt");   // used for creating graph
+    outfile.open("output.txt"); // used for creating graph
     double t;
-    for (double i = 0; i <= 30; i+= 0.1) 
-    {// work out dv/dt
+    for (double i = 0; i <= 30; i += 0.1)
+    { // work out dv/dt
         // pass appropriate function so we can handle discontinuities
-        if (i <= 10) 
+        if (i <= 10)
             t = 10;
         else if (i <= 20)
             t = 20;
@@ -49,7 +49,7 @@ int main()
         outfile << rich_extrap(i, 0.25, t) << endl;
     }
 
-    for (double i = 0; i <= 30; i+= 0.1)  // work out dv^2/dt
+    for (double i = 0; i <= 30; i += 0.1) // work out dv^2/dt
         outfile << fn_2(i, 0.25) << endl;
 
     return 0;
@@ -126,15 +126,22 @@ double rich_extrap(double x, double h, double t)
 }
 
 double central_dif(double x, double h, double t)
-{ 
-    if((x + h) > t)
-    {// take percentage of how much of each function the value is in
+{
+    /*
+                        Central Difference Formula:
+        Each x will have an appropriate t function it belongs to.
+        However, x + h may change the function it belongs to.
+        In this case, take the percentage of each function the new value
+        belongs to and compute accordingly.
+        ie x = 9.8, h = 0.5 - 40% in t <= 10 function and 60% in t <= 20 function
+                                                                                    */
+    if ((x + h) > t)
+    {// work out percentage
         double p_lower = (t - x) / h;
         double p_upper = (x + h - t) / h;
-        return (p_upper * ((fn(x + h) - fn(x - h)) / (2 * h))) - (p_lower * ((fn(x + h) - fn(x - h)) / (2 * h)));
-
+        return (p_upper * ((fn(x + h) - fn(x - h)) / (2 * h))) - 
+               (p_lower * ((fn(x + h) - fn(x - h)) / (2 * h)));
     }
-    else // <= t so in the right bracket
-        return (fn(x + h) - fn(x - h)) / (2 * h); 
-    
+    else // <= t so in the right t function
+        return (fn(x + h) - fn(x - h)) / (2 * h);
 }
