@@ -10,16 +10,15 @@ def read_file(file):
 
 def draw_plot(vals):
 
-    data = [int(line) for line in vals]
+    data = [float(line) for line in vals]
     
     # dv/dt
     plt.figure(0)
     plt.title("Acceleration dv/dt \nfrom t = 0 to t = 30")
     plt.xlabel("Time (t)")
     plt.ylabel('Acceleration')
-    plt.plot(data[:30]) 
-    plt.yticks([-5, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220], 
-            [-5, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220])
+    plt.plot(data[:300]) 
+    plt.xticks( [0, 50, 100, 150, 200, 250, 300], [0, 5, 10, 15, 20, 25, 30])
     plt.tight_layout()
     plt.savefig('dv.jpg')
     
@@ -28,9 +27,8 @@ def draw_plot(vals):
     plt.title('Rate of Change of Acceleration dv"/dt \nfrom t = 0 to t = 30')
     plt.xlabel("Time (t)")
     plt.ylabel('Change of Acceleration')
-    plt.plot(data[30:]) 
-    plt.yticks([0, 4, 22], 
-            [0, 4, 22])
+    plt.plot(data[300:]) 
+    plt.xticks( [0, 50, 100, 150, 200, 250, 300], [0, 5, 10, 15, 20, 25, 30])
     plt.tight_layout()
     plt.savefig('dv2.jpg')
     
@@ -38,11 +36,10 @@ def draw_plot(vals):
     plt.figure(2)
     plt.title("Acceleration and Rate of Change of Acceleration \nfrom t = 0 to t = 30")
     plt.xlabel("Time (t)")
-    plt.ylabel('Derivative Value')
-    plt.plot(data[:30])
-    plt.plot(data[30:]) 
-    plt.yticks([-5, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220], 
-            [-5, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220])
+    plt.ylabel('Value (Acceleration or Change of Acceleration)')
+    plt.plot(data[:300])
+    plt.plot(data[300:]) 
+    plt.xticks( [0, 50, 100, 150, 200, 250, 300], [0, 5, 10, 15, 20, 25, 30])
     plt.legend(['dv/dt', 'dv"/dt'], loc ="upper right")
     plt.tight_layout()
     plt.savefig('combined.jpg')
