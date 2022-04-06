@@ -27,10 +27,7 @@ int main()
     {// loop from first step to length of rod
         x += rk4(z, h); // work out x
         dydx.insert({z, x});
-        cout << "x(" << z << ") = " << x << endl;
     }
-    cout << endl
-         << endl;
 
     outfile.open("output.txt"); // used for creating graph
     h *= 2;
