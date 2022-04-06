@@ -102,7 +102,8 @@ int main()
     return 0;
 }
 
-TYPE T predict_h(T h, T upper, T inc, std::string filename)
+TYPE 
+T predict_h(T h, T upper, T inc, std::string filename)
 { // compare double vs float
     std::ofstream outfile;
     outfile.open(filename); // used for creating graph of derivative
