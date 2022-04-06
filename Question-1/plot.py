@@ -10,7 +10,6 @@ float text file and half text file. After removing
 these you can then run this file to get accurate line
 equations. The above does not need to be done
 if you only require the graphs.
-
 """
 with open('half.txt', 'r') as file:
     lines = file.readlines()
