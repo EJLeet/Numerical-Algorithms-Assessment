@@ -25,7 +25,7 @@ int main()
     cout << "Newton-Raphson Method Root = " << res << " \t"
          << "Iterations needed = " << count << endl;
     std::tie(res, count) = secant(a, b, tolerance);
-    cout << "Sectant Method Root = " << res << " \t"
+    cout << "Secant Method Root = " << res << " \t"
          << "Iterations needed = " << count << endl;
 
     return 0;
