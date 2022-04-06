@@ -2,27 +2,32 @@
 #include <cmath>
 #include <vector>
 
-using std::endl;
 using std::cout;
+using std::endl;
 
-double f(double x) //given function
+double f(double x) // given function
 { return (exp(-x) - x + x * x) - 4; }
 std::tuple<double, int> bisection(double a, double b, double tolerance);
-double central_dif(double x, double h)// central difference formula
+double central_dif(double x, double h) // central difference formula
 { return (f(x + h) - f(x - h)) / (2 * h); }
-double rich_extrap(double x, double h);
 std::tuple<double, int> newton_raphson(double x, double tolerance);
+double rich_extrap(double x, double h);
+std::tuple<double, int> secant(double a, double b, double tolerance);
 
 int main()
 {
     double a = -1., b = 0., tolerance = 0.00001, res;
     int count;
     std::tie(res, count) = bisection(a, b, tolerance);
-    cout << "Bisection Method Root = " << res << " \t" << 
-            "Iterations needed = " << count <<  endl;
+    cout << "Bisection Method Root = " << res << " \t"
+         << "Iterations needed = " << count << endl;
     std::tie(res, count) = newton_raphson(a, tolerance);
     cout << "Newton-Raphson Method Root = " << res << " \t"
-         << "Iterations needed = " << count <<  endl;
+         << "Iterations needed = " << count << endl;
+    std::tie(res, count) = secant(a, b, tolerance);
+    cout << "Sectant Method Root = " << res << " \t"
+         << "Iterations needed = " << count << endl;
+
     return 0;
 }
 
@@ -90,11 +95,27 @@ std::tuple<double, int> newton_raphson(double x, double tolerance)
     double z = 1.;
     int count = 0;
     while (fabs(f(z)) > tolerance)
-    {// loop until tolerance met
+    { // loop until tolerance met
         // update x with f(x) - f'(x)
         z = x - (f(x) / rich_extrap(x, 0.05));
         x = z;
         count++;
     }
-    return {x, count};     
+    return {x, count};
+}
+
+std::tuple<double, int> secant(double a, double b, double tolerance)
+{
+    double c;
+    int count = 0;
+    while (fabs(b - a) >= tolerance)
+    { // loop until the interval is less than the tolerance
+        // calculate the intermediate
+        c = b - (f(b) * (b - a)) / (f(b) - f(a));
+        // update intervals
+        a = b;
+        b = c;
+        count++;
+    }
+    return {c, count};
 }

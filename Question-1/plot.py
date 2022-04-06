@@ -2,6 +2,16 @@ from multiprocessing.connection import wait
 import matplotlib.pyplot as plt
 import numpy as np
 
+"""
+This line equation scheme is quite messy.
+You will first need to remove the log from the main.cpp.
+Secondly remove the infinity values from the 
+float text file and half text file. After removing 
+these you can then run this file to get accurate line
+equations. The above does not need to be done
+if you only require the graphs.
+
+"""
 with open('half.txt', 'r') as file:
     lines = file.readlines()
     x = [float(line.split()[0]) for line in lines]

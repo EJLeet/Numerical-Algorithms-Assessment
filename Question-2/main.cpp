@@ -21,7 +21,7 @@ int main()
 
     for (int i = 1; i <= 30; i++)
     { // 10 segments for 30 different t values
-      // start at 1 to avoid a 0 step size and infinite result 
+      // start at 1 to avoid a 0 step size and infinite result
         if (i <= 10)
             t1.push_back(multi_app_simpson(0, 10, i));
         else if (i <= 20)
@@ -31,7 +31,9 @@ int main()
     }
 
     for (int i = 0; i < 10; i++) // evaluate distance for each segment
-        cout << "Distance Using Multi-Application Simpsons for Segment " << i + 1 << " = " << std::setprecision(10) << t1[i] + t2[i] + t3[i] << endl;
+        cout << "Distance Using Multi-Application Simpsons for Segment " 
+             << i + 1 << " = " << std::setprecision(10) 
+             << t1[i] + t2[i] + t3[i] << endl;
 
     cout << "Analytical Distance = " << std::setprecision(10)
          << double(80500) / double(3) << endl;
@@ -108,8 +110,9 @@ double rich_extrap(double x, double h, double t)
         row++;
         col++;
         h /= 2;
-        matrix.push_back(std::vector<double>(row)); // allocate memory for the correct amount of columns
-        matrix[row][0] = (central_dif(x, h, t));    // add first column value
+        // allocate memory for the correct amount of columns
+        matrix.push_back(std::vector<double>(row));
+        matrix[row][0] = (central_dif(x, h, t)); // add first column value
 
         int x_next = 4;
         for (int i = 1; i <= col; i++)
@@ -129,26 +132,26 @@ double rich_extrap(double x, double h, double t)
 
 double central_dif(double x, double h, double t)
 {
-    /*
-                        Central Difference Formula:
-        Each x will have an appropriate t function it belongs to.
-        However, x + h or x - h may change the function it belongs to.
-        In this case, take the percentage of each function the new value
-        belongs to and compute accordingly.
-        ie x = 9.8, h = 0.5 : 40% in t <= 10 function and 60% in t <= 20 function
-                                                                             */
+/*
+                    Central Difference Formula:
+    Each x will have an appropriate t function it belongs to.
+    However, x + h or x - h may change the function it belongs to.
+    In this case, take the percentage of each function the new value
+    belongs to and compute accordingly.
+    ie x = 9.8, h = 0.5 : 40% in t <= 10 function and 60% in t <= 20 function
+                                                                                    */
     if ((x + h) > t)
-    {// handle x + h overflow case
+    { // handle x + h overflow case
         double p_lower = (t - x) / h;
         double p_upper = 1 - p_lower;
         return ((p_lower * fn(t) + p_upper * fn(x + h - t)) - fn(x - h)) / (2 * h);
     }
     else if ((x - h) < t - 10)
-    {// handle x - h underflow case
+    { // handle x - h underflow case
         double p_upper = (x - t / 2) / h;
         double p_lower = 1 - p_upper;
         return (fn(x + h) - (p_upper * fn(t) + p_lower * fn(x - h))) / (2 * h);
     }
     else // <= t so in the right t function
-       return (fn(x + h) - fn(x - h)) / (2 * h);
+        return (fn(x + h) - fn(x - h)) / (2 * h);
 }

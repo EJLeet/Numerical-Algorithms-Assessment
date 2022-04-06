@@ -3,21 +3,19 @@
 #include <math.h>
 #include <iomanip>
 
-using std::endl;
 using std::cout;
+using std::endl;
 
 double romberg(double t1, double t2, double tolerance);
 double ft(double t)
-{
-    return ((9 + 4 * (cos(0.4 * t) * cos(0.4 * t))) * 
-            (5 * exp(-0.5 * t) + 2 * exp(0.15 * t)));
-}
+{ return ((9 + 4 * (cos(0.4 * t) * cos(0.4 * t))) *
+          (5 * exp(-0.5 * t) + 2 * exp(0.15 * t))); }
 double multi_trap(double a, double b, double seg);
 
 int main()
 {
     double t1 = 2., t2 = 8., tolerance = 0.001;
-    cout << "Romberg Inegration = " << std::setprecision(8) 
+    cout << "Romberg Inegration = " << std::setprecision(8)
          << romberg(t1, t2, tolerance) << endl;
     return 0;
 }
@@ -33,16 +31,17 @@ double romberg(double t1, double t2, double tolerance)
     matrix.push_back(std::vector<double>(1));
 
     while (rel_err > tolerance)
-    {// loop until tolerance met
+    { // loop until tolerance met
         double x_next = 4.;
         for (col = 0; col <= row; col++)
         {// fill rest of row
             if (col == 0) // if in column 0 use multi trap
                 matrix[row][col] = multi_trap(t1, t2, n);
             else
-            {// use rombert formula
-                matrix[row][col] = (x_next * matrix[row][col - 1] - 
-                                    matrix[row - 1][col - 1]) / (x_next - 1);
+            { // use rombert formula
+                matrix[row][col] = (x_next * matrix[row][col - 1] -
+                                    matrix[row - 1][col - 1]) /
+                                   (x_next - 1);
                 x_next *= 4;
             }
         }
@@ -53,7 +52,8 @@ double romberg(double t1, double t2, double tolerance)
 
         row++;
         n *= 2;
-        matrix.push_back(std::vector<double>(row + 1)); // allocate memory for the correct amount of columns
+        // allocate memory for the correct amount of columns
+        matrix.push_back(std::vector<double>(row + 1)); 
     }
     return curr_approx;
 }
