@@ -29,6 +29,7 @@ int main()
         dydx.insert({z, x});
     }
 
+    cout << "y(0) = 0 " << endl;
     outfile.open("output.txt"); // used for creating graph
     h *= 2;
     for (double z = 0; z < 30; z += h)
