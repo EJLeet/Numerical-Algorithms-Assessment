@@ -11,8 +11,7 @@ double multi_app_simpson(double a, double b, int seg);
 double fn(double x);
 double rich_extrap(double x, double h, double t);
 double central_dif(double x, double h, double t);
-double fn_2(double x, double h) // function to evaluate f"
-{ return (fn(x + h) - 2 * fn(x) + fn(x - h)) / (h * h); }
+double fn_2(double x, double h, double t);
 
 int main()
 {
@@ -52,8 +51,17 @@ int main()
         outfile << rich_extrap(i, 0.25, t) << endl;
     }
 
-    for (double i = 1; i <= 30; i += 0.1) // work out dv^2/dt
-        outfile << fn_2(i, 0.25) << endl;
+    for (double i = 1; i <= 30; i += 0.1)
+    {// work out dv^2/dt
+        // pass appropriate function so we can handle discontinuities
+        if (i <= 10)
+            t = 10;
+        else if (i <= 20)
+            t = 20;
+        else
+            t = 30;
+        outfile << fn_2(i, 0.25, t) << endl;
+    }
     outfile.close();
 
     return 0;
@@ -154,4 +162,26 @@ double central_dif(double x, double h, double t)
     }
     else // <= t so in the right t function
         return (fn(x + h) - fn(x - h)) / (2 * h);
+}
+
+double fn_2(double x, double h, double t) 
+{// function to evaluate f"
+    if ((x + h) > t)
+    { // handle x + h overflow case
+        double p_lower = (t - x) / h;
+        double p_upper = 1 - p_lower;
+        return ((p_lower * fn(t) + p_upper * fn(x + h - t)) - 2 * fn(x) + fn(x - h)) / (h * h);
+    }
+
+    else if ((x - h) < t - 10)
+    { // handle x - h underflow case
+        double p_upper = (x - t / 2) / h;
+        double p_lower = 1 - p_upper;
+        return (fn(x + h) - 2 * fn(x) + (p_upper * fn(t) + p_lower * fn(x - h))) / (h * h);
+    }
+
+    else // <= t so in the right t function
+        return (fn(x + h) - 2 * fn(x) + fn(x - h)) / (h * h); 
+    
+    
 }
