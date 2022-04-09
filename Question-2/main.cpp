@@ -182,6 +182,4 @@ double fn_2(double x, double h, double t)
 
     else // <= t so in the right t function
         return (fn(x + h) - 2 * fn(x) + fn(x - h)) / (h * h); 
-    
-    
 }
