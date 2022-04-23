@@ -18,7 +18,7 @@ int main()
     std::ofstream outfile;
 
     /*
-        let x = dy/dz -> dx/dz = d^2y/d^2z
+        let x = dy/dz -> dx/dz = d^2y/dz^2
         Then run rk4 for x
         Use the datapoints derived to work out dx/dz
                                                         */

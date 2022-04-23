@@ -38,7 +38,7 @@ double romberg(double t1, double t2, double tolerance)
             if (col == 0) // if in column 0 use multi trap
                 matrix[row][col] = multi_trap(t1, t2, n);
             else
-            { // use rombert formula
+            { // use romberg formula
                 matrix[row][col] = (x_next * matrix[row][col - 1] -
                                     matrix[row - 1][col - 1]) /
                                    (x_next - 1);

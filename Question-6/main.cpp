@@ -18,12 +18,15 @@ int main()
 {
     double a = -1., b = 0., tolerance = 0.00001, res;
     int count;
+    
     std::tie(res, count) = bisection(a, b, tolerance);
     cout << "Bisection Method Root = " << res << " \t"
          << "Iterations needed = " << count << endl;
+
     std::tie(res, count) = newton_raphson(a, tolerance);
     cout << "Newton-Raphson Method Root = " << res << " \t"
          << "Iterations needed = " << count << endl;
+
     std::tie(res, count) = secant(a, b, tolerance);
     cout << "Secant Method Root = " << res << " \t"
          << "Iterations needed = " << count << endl;
